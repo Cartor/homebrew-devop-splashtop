@@ -2,7 +2,7 @@
 #                https://rubydoc.brew.sh/Formula
 # PLEASE REMOVE ALL GENERATED COMMENTS BEFORE SUBMITTING YOUR PULL REQUEST!
 class Vlc < Formula
-  desc "Splashtop test vlc"
+  desc "splashtop test vlc"
   homepage ""
   url "https://free.nchc.org.tw/vlc/vlc/3.0.20/macosx/vlc-3.0.20-universal.dmg"
   sha256 "22a18f396ccc9876c60d5fb443116c96fd7d042d89d59e50cdcba36bf39dd54b"
@@ -22,7 +22,7 @@ class Vlc < Formula
     #
     # This test will fail and we won't accept that! For Homebrew/homebrew-core
     # this will need to be a test that verifies the functionality of the
-    # software. Run the test with `brew test vlc-3.0.20-universal`. Options passed
+    # software. Run the test with `brew test vlc`. Options passed
     # to `brew install` such as `--HEAD` also need to be provided to `brew test`.
     #
     # The installed folder is not in the path, so use the entire path to any
