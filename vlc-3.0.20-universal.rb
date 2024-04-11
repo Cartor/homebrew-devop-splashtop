@@ -1,7 +1,7 @@
 # Documentation: https://docs.brew.sh/Formula-Cookbook
 #                https://rubydoc.brew.sh/Formula
 # PLEASE REMOVE ALL GENERATED COMMENTS BEFORE SUBMITTING YOUR PULL REQUEST!
-class Vlc3020Universal < Formula
+class vlc < Formula
   desc "Splashtop test vlc"
   homepage ""
   url "https://free.nchc.org.tw/vlc/vlc/3.0.20/macosx/vlc-3.0.20-universal.dmg"
