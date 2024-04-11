@@ -1,32 +1,43 @@
-# Documentation: https://docs.brew.sh/Formula-Cookbook
-#                https://rubydoc.brew.sh/Formula
-# PLEASE REMOVE ALL GENERATED COMMENTS BEFORE SUBMITTING YOUR PULL REQUEST!
-class Vlc < Formula
-  desc "splashtop test vlc"
-  homepage ""
-  url "https://free.nchc.org.tw/vlc/vlc/3.0.20/macosx/vlc-3.0.20-universal.dmg"
-  sha256 "22a18f396ccc9876c60d5fb443116c96fd7d042d89d59e50cdcba36bf39dd54b"
-  license ""
+cask "vlc" do
+  arch arm: "arm64", intel: "intel64"
 
-  # depends_on "cmake" => :build
+  version "3.0.20"
+  sha256 arm:   "5d5f0ee52d81982a622f4021928a64b4705a9554499e20c33d0bac22590b118e",
+         intel: "a4dc1441fcab8e2b90c62974ce5399bb88acbf6c70d54f21c6158d9fb1fba279"
 
-  def install
-    # Remove unrecognized options if they cause configure to fail
-    # https://rubydoc.brew.sh/Formula.html#std_configure_args-instance_method
-    system "./configure", "--disable-silent-rules", *std_configure_args
-    # system "cmake", "-S", ".", "-B", "build", *std_cmake_args
+  url "https://get.videolan.org/vlc/#{version}/macosx/vlc-#{version}-#{arch}.dmg"
+  name "VLC media player"
+  desc "Multimedia player"
+  homepage "https://www.videolan.org/vlc/"
+
+  livecheck do
+    url "https://www.videolan.org/vlc/download-macosx.html"
+    regex(%r{href=.*?/vlc[._-]v?(\d+(?:\.\d+)+)(?:[._-][a-z]\w*)?\.dmg}i)
   end
 
-  test do
-    # `test do` will create, run in and delete a temporary directory.
-    #
-    # This test will fail and we won't accept that! For Homebrew/homebrew-core
-    # this will need to be a test that verifies the functionality of the
-    # software. Run the test with `brew test vlc`. Options passed
-    # to `brew install` such as `--HEAD` also need to be provided to `brew test`.
-    #
-    # The installed folder is not in the path, so use the entire path to any
-    # executables being tested: `system "#{bin}/program", "do", "something"`.
-    system "false"
+  auto_updates true
+  conflicts_with cask: "homebrew/cask-versions/vlc-nightly"
+
+  app "VLC.app"
+  # shim script (https://github.com/Homebrew/homebrew-cask/issues/18809)
+  shimscript = "#{staged_path}/vlc.wrapper.sh"
+  binary shimscript, target: "vlc"
+
+  preflight do
+    File.write shimscript, <<~EOS
+      #!/bin/sh
+      exec '#{appdir}/VLC.app/Contents/MacOS/VLC' "$@"
+    EOS
   end
+
+  zap trash: [
+    "~/Library/Application Support/com.apple.sharedfilelist/com.apple.LSSharedFileList.ApplicationRecentDocuments/org.videolan.vlc.sfl*",
+    "~/Library/Application Support/org.videolan.vlc",
+    "~/Library/Application Support/VLC",
+    "~/Library/Caches/org.videolan.vlc",
+    "~/Library/HTTPStorages/org.videolan.vlc",
+    "~/Library/Preferences/org.videolan.vlc",
+    "~/Library/Preferences/org.videolan.vlc.plist",
+    "~/Library/Saved Application State/org.videolan.vlc.savedState",
+  ]
 end
